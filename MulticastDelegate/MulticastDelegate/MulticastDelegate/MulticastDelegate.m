@@ -15,18 +15,15 @@
 }
 
 
-- (id)init
-{
-    if (self = [super init])
-    {
+- (id)init {
+    if (self = [super init]) {
         _delegates = [NSMutableArray mutableArrayUsingWeakReferences];
     }
     return self;
 }
 
 
-- (void)addDelegate:(id)delegate
-{
+- (void)addDelegate:(id)delegate {
     [_delegates addObject:delegate];
 }
 
@@ -45,16 +42,14 @@
 }
 
 
-- (BOOL)respondsToSelector:(SEL)aSelector
-{
-    if ([super respondsToSelector:aSelector])
+- (BOOL)respondsToSelector:(SEL)aSelector {
+    if ([super respondsToSelector:aSelector]) {
         return YES;
+    }
     
     // if any of the delegates respond to this selector, return YES
-    for(id delegate in _delegates)
-    {
-        if ([delegate respondsToSelector:aSelector])
-        {
+    for(id delegate in _delegates) {
+        if ([delegate respondsToSelector:aSelector]) {
             return YES;
         }
     }
@@ -62,18 +57,14 @@
 }
 
 
-- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector
-{
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
     // can this class create the signature?
     NSMethodSignature* signature = [super methodSignatureForSelector:aSelector];
     
     // if not, try our delegates
-    if (!signature)
-    {
-        for(id delegate in _delegates)
-        {
-            if ([delegate respondsToSelector:aSelector])
-            {
+    if (!signature) {
+        for(id delegate in _delegates) {
+            if ([delegate respondsToSelector:aSelector]) {
                 return [delegate methodSignatureForSelector:aSelector];
             }
         }
@@ -82,13 +73,10 @@
 }
 
 
-- (void)forwardInvocation:(NSInvocation *)anInvocation
-{
+- (void)forwardInvocation:(NSInvocation *)anInvocation {
     // forward the invocation to every delegate
-    for(id delegate in _delegates)
-    {
-        if ([delegate respondsToSelector:[anInvocation selector]])
-        {
+    for(id delegate in _delegates) {
+        if ([delegate respondsToSelector:[anInvocation selector]]) {
             [anInvocation invokeWithTarget:delegate];
         }
     }
