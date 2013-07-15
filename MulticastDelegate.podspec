@@ -10,6 +10,6 @@ Pod::Spec.new do |s|
   s.source   = { :git => 'https://github.com/tkach/MulticastDelegate.git'}
 
   s.description  = '.'
-  s.source_files = 'MulticastDelegate/*.{h,m}', 'MulticastDelegate/MulticastDelegate/MulticastDelegate/*.{h,m}
+  s.source_files = 'MulticastDelegate/*.{h,m}', 'MulticastDelegate/MulticastDelegate/MulticastDelegate/*.{h,m}'
   s.requires_arc = true
 end
