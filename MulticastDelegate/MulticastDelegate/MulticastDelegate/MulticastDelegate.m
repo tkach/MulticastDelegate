@@ -48,7 +48,7 @@
     }
     
     // if any of the delegates respond to this selector, return YES
-    for(id delegate in _delegates) {
+    for(id delegate in [_delegates copy]) {
         if ([delegate respondsToSelector:aSelector]) {
             return YES;
         }
@@ -63,7 +63,7 @@
     
     // if not, try our delegates
     if (!signature) {
-        for(id delegate in _delegates) {
+        for(id delegate in [_delegates copy]) {
             if ([delegate respondsToSelector:aSelector]) {
                 return [delegate methodSignatureForSelector:aSelector];
             }
@@ -75,7 +75,7 @@
 
 - (void)forwardInvocation:(NSInvocation *)anInvocation {
     // forward the invocation to every delegate
-    for(id delegate in _delegates) {
+    for(id delegate in [_delegates copy]) {
         if ([delegate respondsToSelector:[anInvocation selector]]) {
             [anInvocation invokeWithTarget:delegate];
         }
