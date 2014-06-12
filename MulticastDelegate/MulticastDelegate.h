@@ -16,8 +16,10 @@
 // Removes the given delegate implementation from the list of observers
 - (void)removeDelegate:(id)delegate;
 
+// Removes all delegates
 - (void)removeAllDelegates;
 
-- (NSMutableArray *)delegates;
+// Hashtable of all delegates
+- (NSHashTable *)delegates;
 
 @end

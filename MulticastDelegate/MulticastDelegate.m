@@ -7,17 +7,16 @@
 //
 
 #import "MulticastDelegate.h"
-#import "NSMutableArray+NonRetaining.h"
 
 @implementation MulticastDelegate {
     // the array of observing delegates
-    NSMutableArray* _delegates;
+    NSHashTable* _delegates;
 }
 
 
 - (id)init {
     if (self = [super init]) {
-        _delegates = [NSMutableArray mutableArrayUsingWeakReferences];
+        _delegates = [NSHashTable hashTableWithOptions:NSPointerFunctionsWeakMemory];
     }
     return self;
 }
@@ -37,7 +36,7 @@
 }
 
 
-- (NSMutableArray *)delegates {
+- (NSHashTable *)delegates {
     return _delegates;
 }
 
@@ -48,7 +47,7 @@
     }
     
     // if any of the delegates respond to this selector, return YES
-    for(id delegate in [_delegates copy]) {
+    for(id delegate in _delegates) {
         if ([delegate respondsToSelector:aSelector]) {
             return YES;
         }
@@ -63,7 +62,7 @@
     
     // if not, try our delegates
     if (!signature) {
-        for(id delegate in [_delegates copy]) {
+        for(id delegate in _delegates) {
             if ([delegate respondsToSelector:aSelector]) {
                 return [delegate methodSignatureForSelector:aSelector];
             }
@@ -75,7 +74,7 @@
 
 - (void)forwardInvocation:(NSInvocation *)anInvocation {
     // forward the invocation to every delegate
-    for(id delegate in [_delegates copy]) {
+    for(id delegate in _delegates) {
         if ([delegate respondsToSelector:[anInvocation selector]]) {
             [anInvocation invokeWithTarget:delegate];
         }

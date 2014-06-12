@@ -1,10 +1,10 @@
 MulticastDelegate
 =================
 
-Multiple delegates messages forwarding implementation.
-Based on SHCMulticastDelegate but with easier adding/removing delegates methods and non-retaining delegates array.
+Multiple delegates messages forwarding implementation with zeroing weak references.
 
-The logic of this component is well described in the post of Colin Ebernadt, in his article [http://www.scottlogic.com/blog/2012/11/19/a-multicast-delegate-pattern-for-ios-controls.html](http://www.scottlogic.com/blog/2012/11/19/a-multicast-delegate-pattern-for-ios-controls.html)
+Based on NSHashTable. Table stores weak references, therefore even if some of your delegates was deallocated you will not get EXC_BAD_ACCESS. 
+
 
 
 Installation
@@ -18,8 +18,6 @@ Alternatively, you can just copy this sources in your project:
 
 - MulticastDelegate.h
 - MulticastDelegate.m
-- NSMutableArray+NonRetaining.h
-- NSMutableArray+NonRetaining.m
 
 
 Usage
